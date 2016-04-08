@@ -27,9 +27,9 @@ io.on('connection', function (_socket) {
     console.log(_socket.id + ': connection');
     _socket.emit('user_list', nickname_list);
     _socket.emit('need_nickname');
-    _socket.emit('server_message', '欢迎来到千寻聊天室~<br/>' +
-        '本聊天室源代码<a href="https://coding.net/u/coofly/p/qx-chat/git" target="_blank">' +
-        'https://coding.net/u/coofly/p/qx-chat/git</a>，欢迎Star！');
+    _socket.emit('server_message', 'Welcome<br/>' +
+        'Chatroom<a href="https://coding.net/u/coofly/p/qx-chat/git" target="_blank">' +
+        'https://coding.net/u/coofly/p/qx-chat/git</a>，Welcome Star！');
 
     _socket.on('disconnect', function () {
         console.log(_socket.id + ': disconnect');
@@ -44,15 +44,15 @@ io.on('connection', function (_socket) {
         console.log(_socket.id + ': change_nickname(' + _nickname + ')');
         var name_len = _nickname.replace(/[^\u0000-\u00ff]/g, "tt").length;
         if (name_len < 4 || name_len > 16) {
-            return _socket.emit('change_nickname_error', '请填写正确的昵称，应为4到16个字符。');
+            return _socket.emit('change_nickname_error', 'Your Nickname，4 to 16 chars');
         }
 
         if (_socket.nickname == _nickname) {
-            return _socket.emit('change_nickname_error', '你本来就叫这个。');
+            return _socket.emit('change_nickname_error', 'Error。');
         }
 
         if (HasNickname(_nickname)) {
-            return _socket.emit('change_nickname_error', '此昵称已被人使用。');
+            return _socket.emit('change_nickname_error', 'Name in used already');
         }
 
         var old_name = "";

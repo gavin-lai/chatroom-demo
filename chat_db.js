@@ -70,7 +70,7 @@ var pool = mysql.createPool({
 	database        : db_config.database
 });
 
-//初始化数据库结构
+//initialized
 pool.getConnection(function(err, connection){
 	if (err) throw err;
 	// create table if it does'nt exist
@@ -88,7 +88,7 @@ pool.getConnection(function(err, connection){
 });
 
 /**
- * 释放数据库连接
+ * release
  */
 exports.release = function(connection) {
 	connection.end(function(error) {
@@ -97,33 +97,33 @@ exports.release = function(connection) {
 };
 
 /**
- * 执行查询
+ * query
  */
 exports.execQuery = function(options) {
 	pool.getConnection(function(error, connection) {
 		if(error) {
-			console.log('DB-获取数据库连接异常！');
+			console.log('db connection is good！');
 			throw error;
 		}
 
 		/*
-		 * connection.query('USE ' + config.db, function(error, results) { if(error) { console.log('DB-选择数据库异常！'); connection.end(); throw error; } });
+		 * connection.query('USE ' + config.db, function(error, results) { if(error) { console.log('DB-dbconnectionisgood！'); connection.end(); throw error; } });
 		 */
 
-		// 查询参数
+		// query
 		var sql = options['sql'];
 		var args = options['args'];
 		var handler = options['handler'];
 
-		// 执行查询
+		// query
 		if(!args) {
 			var query = connection.query(sql, function(error, results) {
 				if(error) {
-					console.log('DB-执行查询语句异常！');
+					console.log('DB-connection is good！');
 					throw error;
 				}
 
-				// 处理结果
+				// results
 				handler(results);
 			});
 
@@ -131,21 +131,21 @@ exports.execQuery = function(options) {
 		} else {
 			var query = connection.query(sql, args, function(error, results) {
 				if(error) {
-					console.log('DB-执行查询语句异常！');
+					console.log('DB-connection is good！');
 					throw error;
 				}
 
-				// 处理结果
+				// results
 				handler(results);
 			});
 
 			console.log(query.sql);
 		}
 
-		// 返回连接池
+		// return
 		connection.release(function(error) {
 			if(error) {
-				console.log('DB-关闭数据库连接异常！');
+				console.log('DB-connection is good！');
 				throw error;
 			}
 		});
